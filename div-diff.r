@@ -11,3 +11,15 @@ newton_divided_diff <- function(x, y) {
   }
   return(dd)
 }
+
+# ====================== EXAMPLE ======================
+# Sample points
+x_points <- c(-1, 2, 3, 5)
+y_points <- c(-3, 3, 13, 81)
+
+# Build the table
+dd_table <- newton_divided_diff(x_points, y_points)
+
+# Show the full table (just like your handwritten work)
+cat("Divided Difference Table:\n")
+print(dd_table)
