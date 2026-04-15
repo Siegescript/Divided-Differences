@@ -30,6 +30,33 @@ newton_polynomial <- function(x, y) {
   }
 }
 
+# ====================== MULTIPLY POLY BY (x - r) ======================
+multiply_by_linear <- function(p, r) {
+  len <- length(p)
+  new_p <- numeric(len + 1)
+  new_p[2:(len + 1)] <- p          # x * p
+  new_p[1:len] <- new_p[1:len] - r * p   # - r * p
+  new_p
+}
+
+# ====================== EXPAND NEWTON → MONOMIAL COEFFICIENTS ======================
+newton_to_monomial_coeffs <- function(x, dd) {
+  n <- length(x)
+  poly <- c(dd[1, 1])               # start with constant
+  pi_coeffs <- c(1)                 # current product starts as 1
+  
+  for (k in seq_len(n - 1)) {
+    pi_coeffs <- multiply_by_linear(pi_coeffs, x[k])
+    a_k <- dd[1, k + 1]
+    # pad if needed
+    if (length(pi_coeffs) > length(poly)) {
+      poly <- c(poly, rep(0, length(pi_coeffs) - length(poly)))
+    }
+    poly[seq_along(pi_coeffs)] <- poly[seq_along(pi_coeffs)] + a_k * pi_coeffs
+  }
+  poly
+}
+
 # ====================== EXAMPLE ======================
 # Sample points
 x_points <- c(-1, 2, 3, 5)
